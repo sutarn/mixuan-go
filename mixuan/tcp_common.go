@@ -6,33 +6,35 @@ import (
 )
 
 func sendDataOverTcp(w io.Writer, data []byte) (err error) {
-	n := len(data)
-	var len int
-	switch {
-	case n > 1020 && n <= 1400:
-		len = 2048
-	case n > 508:
-		len = 1024
-	default:
-		len = 512
-	}
-	buf := make([]byte, len)
-	buf[0] = byte((n >> 24) & 0xff)
-	buf[1] = byte((n >> 16) & 0xff)
-	buf[2] = byte((n >> 8) & 0xff)
-	buf[3] = byte(n & 0xff)
-	p := len - 4
-	if n <= p {
-		copy(buf[4:], data)
-		_, err = w.Write(buf[:n+4])
-	} else {
-		copy(buf[4:], data[:p])
-		_, err = w.Write(buf)
-		if err != nil {
-			return err
-		}
-		_, err = w.Write(data[p:])
-	}
+	// n := len(data)
+	// var len int
+	// switch {
+	// case n > 1020 && n <= 1400:
+	// 	len = 2048
+	// case n > 508:
+	// 	len = 1024
+	// default:
+	// 	len = 512
+	// }
+	// buf := make([]byte, len)
+	// buf[0] = byte((n >> 24) & 0xff)
+	// buf[1] = byte((n >> 16) & 0xff)
+	// buf[2] = byte((n >> 8) & 0xff)
+	// buf[3] = byte(n & 0xff)
+	// p := len - 4
+	// if n <= p {
+	// 	copy(buf[4:], data)
+	// 	_, err = w.Write(buf[:n+4])
+	// } else {
+	// 	copy(buf[4:], data[:p])
+	// 	_, err = w.Write(buf)
+	// 	if err != nil {
+	// 		return err
+	// 	}
+	// 	_, err = w.Write(data[p:])
+	// }
+	n, err := w.Write(data)
+	log.Printf("write data bytes:%d\n", n)
 	return err
 }
 

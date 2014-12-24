@@ -104,7 +104,7 @@ func (service *TcpService) ServeTCP(conn *net.TCPConn) (err error) {
 		}
 	}
 	go func(conn net.Conn) {
-		fmt.Printf("Client Address:%s\n.", conn.RemoteAddr().String())
+		fmt.Printf("Client Address:%s.\n", conn.RemoteAddr().String())
 		var err error
 		var data []byte
 		for {
